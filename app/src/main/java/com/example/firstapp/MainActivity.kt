@@ -16,6 +16,7 @@ import com.androidnetworking.AndroidNetworking
 import com.androidnetworking.error.ANError
 import com.androidnetworking.interfaces.StringRequestListener
 import com.example.firstapp.adapters.MyAdapter
+import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.GlobalScope
 
 class MainActivity : AppCompatActivity() {
@@ -50,6 +51,15 @@ class MainActivity : AppCompatActivity() {
 
                 }
             })
+
+            FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
+
+                if (!task.isSuccessful) {
+                    Log.w("MainActivity", "Fetching FCM registration token failed", task.exception)
+                }
+                val token = task.result
+                Log.d("MainActivity", "FCM TOKEN: $token")
+            }
 
         val int = listOf("1")
 
